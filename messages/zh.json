@@ -38,6 +38,8 @@
   "Share": "分享",
   "Copy": "复制",
   "Copied": "复制成功",
+  "jsonToTs": "JSON → TS",
+  "jsonToTsCopied": "TS 接口已复制",
   "share_desc": "生成一个打开编辑器并携带当前 JSON 内容的链接。",
   "share_link_unavailable": "无法生成分享链接，编辑器为空。",
   "Settings": "设置",
