@@ -1,3 +1,4 @@
+import { example } from "@/containers/editor/editor/data";
 import type { Kind } from "@/lib/editor/editor";
 import type { editorApi } from "@/lib/editor/types";
 import { expect, type Locator, type Page } from "@playwright/test";
@@ -17,7 +18,7 @@ function getEditorId(rightEditor?: boolean) {
 
 export async function getEditor(page: Page, options?: Options) {
   if (options?.goto) {
-    await page.goto("/editor");
+    await page.goto(options?.needTutorial ? `/editor?json=${encodeURIComponent(example)}` : "/editor");
   }
 
   const id = getEditorId(options?.rightEditor);
