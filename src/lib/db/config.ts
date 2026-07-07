@@ -1,6 +1,5 @@
 import { type ParseOptions } from "@/lib/parser";
 import { get, set, del, type UseStore, createStore } from "idb-keyval";
-import Cookies from "js-cookie";
 import { type StateStorage } from "zustand/middleware";
 
 export const keyName = "config";
@@ -85,11 +84,6 @@ export async function safeSet(key: string, value: any) {
       init();
     }
 
-    Cookies.set(key, value, {
-      expires: 365,
-      path: "/editor",
-      sameSite: "strict",
-    });
     await set(key, value, globalStore);
   } catch (e) {
     if ((e as unknown as Error).name === "InvalidStateError") {

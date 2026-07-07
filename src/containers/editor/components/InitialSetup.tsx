@@ -3,11 +3,8 @@ import { setupGlobalGraphStyle } from "@/lib/graph/style";
 import { setupGlobalTableStyle } from "@/lib/table/style";
 import { px2num } from "@/lib/utils";
 import { type MyWorker } from "@/lib/worker/worker";
-import { useConfigFromCookies } from "@/stores/hook";
 import { useStatusStore } from "@/stores/statusStore";
-import { useUserStore } from "@/stores/userStore";
 import { wrap } from "comlink";
-import { useShallow } from "zustand/shallow";
 
 const measureStr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -33,17 +30,12 @@ export default function InitialSetup() {
 }
 
 function useInitial() {
-  const cc = useConfigFromCookies();
-  const { user, updateActiveOrder } = useUserStore(
-    useShallow((state) => ({
-      user: state.user,
-      updateActiveOrder: state.updateActiveOrder,
-    })),
-  );
-
   useEffect(() => {
-    updateActiveOrder(user);
-    useStatusStore.setState({ _hasHydrated: true, ...cc });
+    // Rehydrate persisted config from IndexedDB
+    const rehydrateResult = useStatusStore.persist.rehydrate();
+    Promise.resolve(rehydrateResult).then(() => {
+      useStatusStore.setState({ _hasHydrated: true });
+    });
 
     // initial worker
     window.rawWorker = new Worker(new URL("@/lib/worker/worker.ts", import.meta.url));

@@ -26,29 +26,21 @@ export default function useVirtualGraph() {
   ]);
 
   const { setViewport } = useReactFlow();
-  const { count, usable } = useUserStore(
+  const { count } = useUserStore(
     useShallow((state) => ({
       count: state.count,
-      usable: state.usable("graphModeView"),
     })),
   );
-  const { isGraphView, resetFoldStatus, setShowPricingOverlay } = useStatusStore(
+  const { isGraphView, resetFoldStatus } = useStatusStore(
     useShallow((state) => ({
       isGraphView: state.viewMode === ViewMode.Graph,
       resetFoldStatus: state.resetFoldStatus,
-      setShowPricingOverlay: state.setShowPricingOverlay,
     })),
   );
 
   useEffect(() => {
     if (!(window.worker && isGraphView) || renderedVersion === treeVersion) {
       console.l("skip graph render:", isGraphView, treeVersion);
-      return;
-    }
-
-    if (!usable) {
-      console.l("skip graph render because reach out of free quota.");
-      setShowPricingOverlay(true);
       return;
     }
 
@@ -83,7 +75,7 @@ export default function useVirtualGraph() {
       console.l("create a new graph:", treeVersion, translateExtentRef.current, nodes.length, edges.length);
       nodes.length > 0 && count("graphModeView");
     })();
-  }, [usable, isGraphView, treeVersion, needReset]);
+  }, [isGraphView, treeVersion, needReset]);
 
   return {
     nodes,

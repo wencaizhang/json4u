@@ -6,7 +6,6 @@ import { type ParsedTree } from "@/lib/worker/command/parse";
 import { getEditorState } from "@/stores/editorStore";
 import { getStatusState, type TreeEdit } from "@/stores/statusStore";
 import { getTreeState } from "@/stores/treeStore";
-import { sendGAEvent } from "@next/third-parties/google";
 import { debounce, type DebouncedFunc } from "lodash-es";
 import { HoverProvider } from "./handler/hoverProvider";
 import { InlayHintsProvider } from "./handler/inlayHintsProvider";
@@ -381,5 +380,5 @@ function reportTextSize(size: number) {
     kind = "(500kb, +∞)";
   }
 
-  sendGAEvent("event", "text_size", { kind });
+  // text size tracked locally
 }

@@ -1,4 +1,5 @@
 upload-monaco-editor.sh
+public/monaco/
 .trae
 e2e/foo.spec.ts
 *.report.html

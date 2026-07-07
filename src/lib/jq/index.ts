@@ -12,7 +12,7 @@ export async function init() {
       {
         tool: "jq",
         version: "1.7",
-        urlPrefix: `${window.location.origin}/jq/1.7`,
+        urlPrefix: "/jq/1.7",
       },
     ],
     {

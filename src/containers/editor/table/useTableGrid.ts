@@ -13,16 +13,14 @@ export function useTableGrid(
   containerRef: RefObject<HTMLDivElement>,
   setTableGrid: Dispatch<SetStateAction<TableGrid>>,
 ) {
-  const { count, usable } = useUserStore(
+  const { count } = useUserStore(
     useShallow((state) => ({
       count: state.count,
-      usable: state.usable("tableModeView"),
     })),
   );
-  const { isTableView, setShowPricingOverlay, setTableEditModePos } = useStatusStore(
+  const { isTableView, setTableEditModePos } = useStatusStore(
     useShallow((state) => ({
       isTableView: state.viewMode === ViewMode.Table,
-      setShowPricingOverlay: state.setShowPricingOverlay,
       setTableEditModePos: state.setTableEditModePos,
     })),
   );
@@ -33,12 +31,6 @@ export function useTableGrid(
   useEffect(() => {
     if (!(window.worker && isTableView) || renderedVersion === treeVersion) {
       console.l("skip table render:", isTableView, treeVersion);
-      return;
-    }
-
-    if (!usable) {
-      console.l("skip table render because reach out of free quota.");
-      setShowPricingOverlay(true);
       return;
     }
 
@@ -55,5 +47,5 @@ export function useTableGrid(
       console.l("create a new table:", treeVersion, needReset, t.width, t.height);
       t.width && count("tableModeView");
     })();
-  }, [usable, isTableView, treeVersion, setTableGrid]);
+  }, [isTableView, treeVersion, setTableGrid]);
 }
